@@ -7,6 +7,7 @@ const TrashButton = styled.button`
   height: 24px;
   border: none;
   background-image: url(${trashImg});
+  background-color: transparent;
   cursor: pointer;
   background-size: cover;
   background-position: center;
@@ -15,6 +16,7 @@ const TrashButton = styled.button`
 
 const OrderItemStyled = styled.li`
   display: flex;
+  margin: 10px 0px;
 `
 
 const ItemName = styled.span`

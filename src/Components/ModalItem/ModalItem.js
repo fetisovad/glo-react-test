@@ -39,9 +39,8 @@ const ItemInfoHeader = styled.div`
   justify-content: space-between;
   font-family: 'Pacifico', cursive;
   font-size: 24px;
-
   &-span {
-    font-family: Pacifico;
+    font-family: 'Pacifico', cursive;
   }
 `;
 
@@ -60,6 +59,7 @@ const Banner = styled.div`
 
 export const AddButton = styled.button`
   margin-top: auto;
+  margin-top: calc(100%);
   padding: 20px 75px;
   font-family: 'Roboto', sans-serif;
   font-size: 21px;
