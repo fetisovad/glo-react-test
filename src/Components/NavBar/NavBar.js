@@ -9,7 +9,7 @@ const NavBarStyled = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  height: 70px;
+  height: 80px;
   position: fixed;
   top: 0;
   left: 0;
