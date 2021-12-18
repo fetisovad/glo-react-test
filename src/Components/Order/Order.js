@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
 import {AddButton} from "../ModalItem/ModalItem";
-import OrderListItem from "../ListItem/OrderListItem";
+import OrderListItem from "./OrderListItem";
+import formatCurrency from "../../utils/formatCurrency";
 
 const OrderStyled = styled.section`
   position: fixed;
@@ -35,24 +36,38 @@ const OrderList = styled.ul`
 const Total = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 15px 0;
+  margin-top: 100%;
+  margin-bottom: 20px;
 `
 
-const Order = () => {
+const EmptyList = styled.p`
+  text-align: center;
+  margin: 20px 0;
+`
+
+const Order = ({orders}) => {
     return (
         <>
             <OrderStyled>
                 <OrderTitle>Ваш заказ</OrderTitle>
                 <OrderContent>
-                    <OrderList>
-                        <OrderListItem/>
-                        <OrderListItem/>
-                        <OrderListItem/>
-                    </OrderList>
+                    {orders.length
+                    ?
+                        <OrderList>
+                            {orders.map((order) => {
+                                return (
+                                    <OrderListItem key={order.id} order={order}/>
+                                )
+                            })}
+                        </OrderList>
+                    :
+                        <EmptyList>Список заказов пуст</EmptyList>
+                    }
                     <Total>
                         <span>Итого</span>
                         <span style={{marginLeft: '80px'}}>5</span>
-                        <span>850Р</span>
+                        {/*<span>{formatCurrency(850)}</span>*/}
+                        <span>{formatCurrency(orders.reduce((a,c) => a + c.price, 0))}</span>
                     </Total>
                     <AddButton style={{marginLeft: '50%', transform: 'translateX(-50%)'}}>Оформить</AddButton>
                 </OrderContent>

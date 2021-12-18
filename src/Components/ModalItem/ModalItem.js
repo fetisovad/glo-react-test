@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import formatCurrency from "../../utils/formatCurrency";
 
 const Overlay = styled.div`
   position: fixed;
@@ -59,7 +60,6 @@ const Banner = styled.div`
 
 export const AddButton = styled.button`
   margin-top: auto;
-  margin-top: calc(100%);
   padding: 20px 75px;
   font-family: 'Roboto', sans-serif;
   font-size: 21px;
@@ -72,8 +72,8 @@ export const AddButton = styled.button`
   }
 `;
 
-const ModalItem = ({openItem, setOpenItem}) => {
-    if (!openItem) return null;
+const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
+    // if (!openItem) return null;
 
     const closeModal = (e) => {
         if (e.target.id === 'overlay') {
@@ -81,18 +81,25 @@ const ModalItem = ({openItem, setOpenItem}) => {
         }
     };
 
+    const order = {
+        ...openItem
+    }
+
+    const addToOrder = () => {
+        setOrders([...orders, order])
+        setOpenItem(null);
+    }
+
     return (
         <Overlay id="overlay" onClick={closeModal}>
             <Modal>
                 <Banner img={openItem.img}/>
                 <ItemInfoHeader>
                     <ItemInfoTitle>{openItem.name}</ItemInfoTitle>
-                    <span>{openItem.price.toLocaleString('ru-RU', {
-                        style: 'currency', currency: 'RUB'
-                    })}</span>
+                    <span>{formatCurrency(openItem.price)}</span>
                 </ItemInfoHeader>
                 <ItemInfo></ItemInfo>
-                <AddButton>Добавить</AddButton>
+                <AddButton onClick={addToOrder}>Добавить</AddButton>
             </Modal>
         </Overlay>
     );

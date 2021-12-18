@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import trashImg from '../../image/trash.svg'
+import formatCurrency from "../../utils/formatCurrency";
 
 const TrashButton = styled.button`
   width: 24px;
@@ -30,12 +31,12 @@ const ItemPrice = styled.span`
   text-align: right;
 `
 
-const OrderListItem = () => {
+const OrderListItem = ({order}) => {
     return (
         <OrderItemStyled>
-            <ItemName>JS Burger</ItemName>
+            <ItemName>{order.name}</ItemName>
             <span>2</span>
-            <ItemPrice>750Р</ItemPrice>
+            <ItemPrice>{formatCurrency(order.price)}</ItemPrice>
             <TrashButton/>
         </OrderItemStyled>
     );
