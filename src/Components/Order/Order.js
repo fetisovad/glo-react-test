@@ -50,6 +50,8 @@ const Order = ({ orders }) => {
         0
     );
 
+    const totalCounter = orders.reduce((res, order) => res + order.count, 0)
+    
     return (
         <>
             <OrderStyled>
@@ -71,7 +73,7 @@ const Order = ({ orders }) => {
                     )}
                     <Total>
                         <span>Итого</span>
-                        <span style={{ marginLeft: '80px' }}>5</span>
+                        <span style={{ marginLeft: '80px' }}>{totalCounter}</span>
                         <span>{formatCurrency(total)}</span>
                     </Total>
                     <AddButton
