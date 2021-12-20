@@ -19,6 +19,9 @@ const TrashButton = styled.button`
 const OrderItemStyled = styled.li`
   display: flex;
   margin: 10px 0;
+  flex-wrap: wrap;
+  border: 1px solid black;
+  border-radius: 10px;
 `
 
 const ItemName = styled.span`
@@ -32,13 +35,26 @@ const ItemPrice = styled.span`
   text-align: right;
 `
 
+const ToppingsList = styled.ul`
+  flex-basis: 100%;
+  padding: 2px 2px 2px 10px;
+`
+
+const ToppingListItem = styled.li`
+  font-size: 16px;
+`
+
 const OrderListItem = ({order}) => {
+    console.log(order)
     return (
         <OrderItemStyled>
             <ItemName>{order.name}</ItemName>
             <span>{order.count}</span>
             <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
             <TrashButton/>
+            <ToppingsList>
+                {order.topping && order.topping.map((topping, index) => topping.checked && <ToppingListItem key={index}>{topping.name}</ToppingListItem>)}
+            </ToppingsList>
         </OrderItemStyled>
     );
 };

@@ -1,11 +1,12 @@
 import {useState} from 'react';
 
-const getTopping = toppings => toppings.map(topping => ({
+const getTopping = toppings => toppings && toppings.map(topping => ({
     name: topping,
     checked: false
 }))
 
 export function useToppings(openItem) {
+    console.log(openItem)
     const [toppings, setToppings] = useState(getTopping(openItem.toppings))
 
     const checkToppings = index => {
@@ -16,5 +17,6 @@ export function useToppings(openItem) {
             return topping;
         }))
     }
+
     return {toppings, checkToppings}
 }
