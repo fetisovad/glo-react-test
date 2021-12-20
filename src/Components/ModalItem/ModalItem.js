@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import formatCurrency from "../../utils/formatCurrency";
+import formatCurrency from '../../utils/formatCurrency';
+import CountItem from './CountItem';
+import {useCount} from '../hooks/useCount';
+import totalPriceItems from "../../utils/totalPriceItems";
 
 const Overlay = styled.div`
   position: fixed;
@@ -40,6 +43,7 @@ const ItemInfoHeader = styled.div`
   justify-content: space-between;
   font-family: 'Pacifico', cursive;
   font-size: 24px;
+
   &-span {
     font-family: 'Pacifico', cursive;
   }
@@ -67,13 +71,23 @@ export const AddButton = styled.button`
   background: #299b01;
   align-self: center;
   border: none;
+
   &:hover {
     transform: scale(1.07);
   }
 `;
 
+const TotalPriceItem = styled.div`
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
     // if (!openItem) return null;
+
+    const counter = useCount();
 
     const closeModal = (e) => {
         if (e.target.id === 'overlay') {
@@ -82,13 +96,14 @@ const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
     };
 
     const order = {
-        ...openItem
-    }
+        ...openItem,
+        count: counter.count,
+    };
 
     const addToOrder = () => {
-        setOrders([...orders, order])
+        setOrders([...orders, order]);
         setOpenItem(null);
-    }
+    };
 
     return (
         <Overlay id="overlay" onClick={closeModal}>
@@ -98,7 +113,13 @@ const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
                     <ItemInfoTitle>{openItem.name}</ItemInfoTitle>
                     <span>{formatCurrency(openItem.price)}</span>
                 </ItemInfoHeader>
-                <ItemInfo></ItemInfo>
+                <ItemInfo>
+                    <CountItem {...counter} />
+                    <TotalPriceItem>
+                        <span>Цена</span>
+                        <span>{formatCurrency(totalPriceItems(order))}</span>
+                    </TotalPriceItem>
+                </ItemInfo>
                 <AddButton onClick={addToOrder}>Добавить</AddButton>
             </Modal>
         </Overlay>

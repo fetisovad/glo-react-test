@@ -1,8 +1,9 @@
 import React from 'react';
-import styled from "styled-components";
-import {AddButton} from "../ModalItem/ModalItem";
-import OrderListItem from "./OrderListItem";
-import formatCurrency from "../../utils/formatCurrency";
+import styled from 'styled-components';
+import { AddButton } from '../ModalItem/ModalItem';
+import OrderListItem from './OrderListItem';
+import formatCurrency from '../../utils/formatCurrency';
+import totalPriceItems from "../../utils/totalPriceItems";
 
 const OrderStyled = styled.section`
   position: fixed;
@@ -16,60 +17,71 @@ const OrderStyled = styled.section`
   height: calc(100% - 80px);
   box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.25);
   padding: 20px;
-`
+`;
 
 const OrderTitle = styled.h2`
   text-align: center;
   font-size: 39px;
   text-transform: uppercase;
-`
+`;
 
 const OrderContent = styled.div`
   flex-grow: 1;
   width: 100%;
-`
+`;
 
-const OrderList = styled.ul`
-
-`
+const OrderList = styled.ul``;
 
 const Total = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 100%;
   margin-bottom: 20px;
-`
+`;
 
 const EmptyList = styled.p`
   text-align: center;
   margin: 20px 0;
-`
+`;
 
-const Order = ({orders}) => {
+const Order = ({ orders }) => {
+    const total = orders.reduce(
+        (result, order) => result + totalPriceItems(order),
+        0
+    );
+
     return (
         <>
             <OrderStyled>
                 <OrderTitle>Ваш заказ</OrderTitle>
                 <OrderContent>
-                    {orders.length
-                    ?
+                    {orders.length ? (
                         <OrderList>
                             {orders.map((order) => {
                                 return (
-                                    <OrderListItem key={order.id} order={order}/>
-                                )
+                                    <OrderListItem
+                                        key={order.id}
+                                        order={order}
+                                    />
+                                );
                             })}
                         </OrderList>
-                    :
+                    ) : (
                         <EmptyList>Список заказов пуст</EmptyList>
-                    }
+                    )}
                     <Total>
                         <span>Итого</span>
-                        <span style={{marginLeft: '80px'}}>5</span>
-                        {/*<span>{formatCurrency(850)}</span>*/}
-                        <span>{formatCurrency(orders.reduce((a,c) => a + c.price, 0))}</span>
+                        <span style={{ marginLeft: '80px' }}>5</span>
+                        <span>{formatCurrency(total)}</span>
                     </Total>
-                    <AddButton style={{marginLeft: '50%', transform: 'translateX(-50%)'}}>Оформить</AddButton>
+                    <AddButton
+                        style={{
+                            marginLeft: '50%',
+                            transform: 'translateX(-50%)',
+                        }}
+                    >
+                        Оформить
+                    </AddButton>
                 </OrderContent>
             </OrderStyled>
         </>
