@@ -37,7 +37,7 @@ const ItemPrice = styled.span`
 
 const ToppingsList = styled.ul`
   flex-basis: 100%;
-  padding: 2px 2px 2px 10px;
+  padding: 2px 2px 2px 20px;
 `
 
 const ToppingListItem = styled.li`
@@ -48,7 +48,7 @@ const OrderListItem = ({order}) => {
     console.log(order)
     return (
         <OrderItemStyled>
-            <ItemName>{order.name}</ItemName>
+            <ItemName>{order.name} {order.choice}</ItemName>
             <span>{order.count}</span>
             <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
             <TrashButton/>

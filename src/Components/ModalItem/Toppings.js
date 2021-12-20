@@ -33,8 +33,7 @@ const ToppingsLabelsWrapper = styled.div`
   flex-wrap: wrap;
 `
 
-const Toppings = ({toppings, checkToppings}) => {
-    console.log(toppings)
+const Toppings = ({ toppings, checkToppings }) => {
     return (
         <ToppingsWrapper>
             <ToppingsTitle>Добавки</ToppingsTitle>
