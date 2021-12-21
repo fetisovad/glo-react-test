@@ -97,7 +97,7 @@ const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
     const counter = useCount(openItem.count);
     const toppings = useToppings(openItem);
     const choices = useChoices(openItem);
-    const isEdit = openItem.index > -1
+    const isEdit = openItem.index > -1;
 
     const closeModal = (e) => {
         if (e.target.id === 'overlay') {
@@ -118,11 +118,9 @@ const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
     };
 
     const editOrder = () => {
-        const newOrders = [...orders]
-        console.log(newOrders[openItem.index])
-        console.log(order)
-        newOrders[openItem.index] = order
-        setOrders(newOrders)
+        const newOrders = [...orders];
+        newOrders[openItem.index] = order;
+        setOrders(newOrders);
         setOpenItem(null);
     };
 
