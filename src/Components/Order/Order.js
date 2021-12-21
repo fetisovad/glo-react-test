@@ -3,55 +3,61 @@ import styled from 'styled-components';
 import { AddButton } from '../ModalItem/ModalItem';
 import OrderListItem from './OrderListItem';
 import formatCurrency from '../../utils/formatCurrency';
-import totalPriceItems from "../../utils/totalPriceItems";
+import totalPriceItems from '../../utils/totalPriceItems';
 
 const OrderStyled = styled.section`
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  top: 80px;
-  left: 0;
-  background-color: #fff;
-  min-width: 380px;
-  height: calc(100% - 80px);
-  box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.25);
-  padding: 20px;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 80px;
+    left: 0;
+    background-color: #fff;
+    min-width: 380px;
+    height: calc(100% - 80px);
+    box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.25);
+    padding: 20px;
 `;
 
 const OrderTitle = styled.h2`
-  text-align: center;
-  font-size: 39px;
-  text-transform: uppercase;
+    text-align: center;
+    font-size: 39px;
+    text-transform: uppercase;
 `;
 
 const OrderContent = styled.div`
-  flex-grow: 1;
-  width: 100%;
+    flex-grow: 1;
+    width: 100%;
 `;
 
 const OrderList = styled.ul``;
 
 const Total = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 100%;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 100%;
+    margin-bottom: 20px;
 `;
 
 const EmptyList = styled.p`
-  text-align: center;
-  margin: 20px 0;
+    text-align: center;
+    margin: 20px 0;
 `;
 
-const Order = ({ orders }) => {
+const Order = ({ orders, setOpenItem, setOrders }) => {
     const total = orders.reduce(
         (result, order) => result + totalPriceItems(order),
         0
     );
 
-    const totalCounter = orders.reduce((res, order) => res + order.count, 0)
-    
+    const totalCounter = orders.reduce((res, order) => res + order.count, 0);
+
+    const deleteOrder = index => {
+        const newOrders = orders.filter((item, i) => index !== i);
+        setOrders(newOrders)
+        setOpenItem(null)
+    };
+
     return (
         <>
             <OrderStyled>
@@ -59,11 +65,14 @@ const Order = ({ orders }) => {
                 <OrderContent>
                     {orders.length ? (
                         <OrderList>
-                            {orders.map((order) => {
+                            {orders.map((order, index) => {
                                 return (
                                     <OrderListItem
-                                        key={order.id}
+                                        key={index}
                                         order={order}
+                                        index={index}
+                                        setOpenItem={setOpenItem}
+                                        deleteOrder={deleteOrder}
                                     />
                                 );
                             })}
@@ -73,7 +82,9 @@ const Order = ({ orders }) => {
                     )}
                     <Total>
                         <span>Итого</span>
-                        <span style={{ marginLeft: '80px' }}>{totalCounter}</span>
+                        <span style={{ marginLeft: '80px' }}>
+                            {totalCounter}
+                        </span>
                         <span>{formatCurrency(total)}</span>
                     </Total>
                     <AddButton
