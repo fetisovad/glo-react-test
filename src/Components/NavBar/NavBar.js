@@ -44,18 +44,54 @@ const Login = styled.button`
   color: #FFFFFF;
 `
 
+const User = styled.button`
+  margin-left: auto;
+  margin-right: 80px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  width: 32px;
+  font-size: 16px;
+  color: #FFFFFF;
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  span {
+    margin-left: 20px;
+  }
+`
 
-const NavBar = () => {
+const NavBar = ({ authentication, login, logout }) => {
     return (
         <NavBarStyled>
             <Logo>
                 <NavLogo src={logoImg} alt='logo'/>
                 <NavTitle>MRDonald’s</NavTitle>
             </Logo>
-            <Login>
-                <img src={signImg} alt=""/>
-                <span>Войти</span>
-            </Login>
+            {authentication
+                ?
+                (
+                    <User>
+                        <div>
+                            <img src={signImg} alt={authentication.displayName}/>
+                            <p>{authentication.displayName}</p>
+                        </div>
+                        <span onClick={logout}>X</span>
+                    </User>
+                )
+                :
+                (
+                    <Login onClick={login}>
+                        <img src={signImg} alt="img"/>
+                        <span>Войти</span>
+                    </Login>
+                )
+            }
         </NavBarStyled>
     );
 };
