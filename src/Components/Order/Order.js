@@ -4,6 +4,7 @@ import { AddButton } from '../ModalItem/ModalItem';
 import OrderListItem from './OrderListItem';
 import formatCurrency from '../../utils/formatCurrency';
 import totalPriceItems from '../../utils/totalPriceItems';
+import { useAuth } from "../hooks/useAuth";
 
 const OrderStyled = styled.section`
     position: fixed;
@@ -44,7 +45,7 @@ const EmptyList = styled.p`
     margin: 20px 0;
 `;
 
-const Order = ({ orders, setOpenItem, setOrders }) => {
+const Order = ({ orders, setOpenItem, setOrders, authentication, login}) => {
     const total = orders.reduce(
         (result, order) => result + totalPriceItems(order),
         0
@@ -57,6 +58,13 @@ const Order = ({ orders, setOpenItem, setOrders }) => {
         setOrders(newOrders)
         setOpenItem(null)
     };
+
+    const checkoutOrder = () => {
+        if(!authentication) login()
+        else {
+            console.log(orders)
+        }
+    }
 
     return (
         <>
@@ -88,10 +96,8 @@ const Order = ({ orders, setOpenItem, setOrders }) => {
                         <span>{formatCurrency(total)}</span>
                     </Total>
                     <AddButton
-                        style={{
-                            marginLeft: '50%',
-                            transform: 'translateX(-50%)',
-                        }}
+                        style={{marginLeft: '50%',transform: 'translateX(-50%)'}}
+                        onClick={checkoutOrder}
                     >
                         Оформить
                     </AddButton>
