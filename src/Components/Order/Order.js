@@ -7,42 +7,42 @@ import totalPriceItems from '../../utils/totalPriceItems';
 import { projection } from '../../utils/projection';
 
 const OrderStyled = styled.section`
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    top: 80px;
-    left: 0;
-    background-color: #fff;
-    min-width: 380px;
-    height: calc(100% - 80px);
-    box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.25);
-    padding: 20px;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 80px;
+  left: 0;
+  background-color: #fff;
+  min-width: 380px;
+  height: calc(100% - 80px);
+  box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.25);
+  padding: 20px;
 `;
 
 const OrderTitle = styled.h2`
-    text-align: center;
-    font-size: 39px;
-    text-transform: uppercase;
+  text-align: center;
+  font-size: 39px;
+  text-transform: uppercase;
 `;
 
 const OrderContent = styled.div`
-    flex-grow: 1;
-    width: 100%;
+  flex-grow: 1;
+  width: 100%;
 `;
 
 const OrderList = styled.ul``;
 
 const Total = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-top: 100%;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 100%;
+  margin-bottom: 20px;
 `;
 
 const EmptyList = styled.p`
-    text-align: center;
-    margin: 20px 0;
+  text-align: center;
+  margin: 20px 0;
 `;
 
 const rulesData = {
@@ -58,22 +58,25 @@ const rulesData = {
 };
 
 const Order = ({
-    orders,
-    setOpenItem,
-    setOrders,
-    authentication,
-    login,
-    firebaseDatabase,
-}) => {
-    const dataBase = firebaseDatabase();
+                   orders,
+                   setOpenItem,
+                   setOrders,
+                   authentication,
+                   login,
+                   //firebaseDatabase,
+                   database
+               }) => {
+    // const dataBase = firebaseDatabase();
 
     const sendOrder = () => {
         const newOrder = orders.map(projection(rulesData));
-        dataBase.ref('orders').push().set({
+        // dataBase.ref('orders').push().set({
+        database.ref('orders').push().set({
             nameClient: authentication.displayName,
             email: authentication.email,
             order: newOrder,
         });
+        setOrders([])
     };
 
     const total = orders.reduce(

@@ -71,7 +71,7 @@ const NavBar = ({ authentication, login, logout }) => {
         <NavBarStyled>
             <Logo>
                 <NavLogo src={logoImg} alt='logo'/>
-                <NavTitle>MRDonald’s</NavTitle>
+                <NavTitle>MY BURGERS</NavTitle>
             </Logo>
             {authentication
                 ?

@@ -20,7 +20,7 @@ export function useAuth(authFirebase) {
                 setAuthentication(null)
             }
         })
-    }, [auth])
+    }, [auth, authentication])
 
     return  {authentication, login, logout}
 }

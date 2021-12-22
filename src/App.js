@@ -10,6 +10,8 @@ import Order from './Components/Order/Order';
 import { useOpenItem } from './Components/hooks/useOpenItem';
 import { useOrders } from './Components/hooks/useOrders';
 import { useAuth } from './Components/hooks/useAuth';
+import useTitle from "./Components/hooks/useTitle";
+import { useDB } from "./Components/hooks/useDB";
 
 //font-family: 'Pacifico', cursive;
 // font-family: 'Roboto', sans-serif;
@@ -30,9 +32,12 @@ firebase.initializeApp(firebaseConfig);
 
 function App() {
     const auth = useAuth(firebase.auth);
-
     const openItem = useOpenItem();
     const orders = useOrders();
+    useTitle(openItem.openItem)
+    const database = firebase.database()
+    const dbMenu = useDB(database)
+
 
     return (
         <>
@@ -42,9 +47,10 @@ function App() {
                 {...orders} 
                 {...openItem} 
                 {...auth} 
-                firebaseDatabase={firebase.database}
+                // firebaseDatabase={firebase.database}
+                database={database}
             />
-            <Menu {...openItem} />
+            <Menu {...openItem} dbMenu={dbMenu} />
             {openItem.openItem && <ModalItem {...openItem} {...orders} />}
         </>
     );

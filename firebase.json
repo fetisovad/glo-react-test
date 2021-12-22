@@ -2,6 +2,9 @@
     "database": {
         "orders": {
             ".write": true
+        },
+        "goods": {
+            ".read": true
         }
     },
     "hosting": {

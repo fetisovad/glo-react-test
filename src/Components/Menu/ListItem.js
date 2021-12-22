@@ -40,6 +40,7 @@ const Item = styled.li`
 `;
 
 const ListItem = ({ itemList, setOpenItem, index }) => {
+    console.log(itemList)
     return (
         <ListItemStyled>
             {itemList.map((item) => (
