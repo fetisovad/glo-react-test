@@ -82,6 +82,7 @@ const OrderConfirm = () => {
                         sendOrder(database, orders, authentication)
                         setOrders([])
                         setOpenOrderConfirm(false)
+                        alert('Заказ оформлен, иди нахуй')
                     }}>Подтвердить</AddButton>
                 </Modal>
             </Overlay>
