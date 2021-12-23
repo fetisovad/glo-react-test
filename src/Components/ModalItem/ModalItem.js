@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import formatCurrency from '../../utils/formatCurrency';
 import CountItem from './CountItem';
@@ -8,8 +8,9 @@ import Toppings from './Toppings';
 import { useToppings } from '../hooks/useToppings';
 import { useChoices } from '../hooks/useChoices';
 import Choices from './Choices';
+import { Context } from "../../utils/context";
 
-const Overlay = styled.div`
+export const Overlay = styled.div`
     position: fixed;
     display: flex;
     align-items: center;
@@ -83,16 +84,15 @@ export const AddButton = styled.button`
     }
 `;
 
-const TotalPriceItem = styled.div`
+export const TotalPriceItem = styled.div`
     margin-top: 40px;
     display: flex;
     justify-content: space-between;
     width: 100%;
 `;
 
-const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
-    console.log(openItem);
-    // if (!openItem) return null;
+const ModalItem = () => {
+    const {openItem: {openItem, setOpenItem}, orders: {orders, setOrders}} = useContext(Context)
 
     const counter = useCount(openItem.count);
     const toppings = useToppings(openItem);

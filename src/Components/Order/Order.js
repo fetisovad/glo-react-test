@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { AddButton } from '../ModalItem/ModalItem';
 import OrderListItem from './OrderListItem';
 import formatCurrency from '../../utils/formatCurrency';
 import totalPriceItems from '../../utils/totalPriceItems';
-import { projection } from '../../utils/projection';
+import { Context } from "../../utils/context";
 
 const OrderStyled = styled.section`
   position: fixed;
@@ -20,7 +20,7 @@ const OrderStyled = styled.section`
   padding: 20px;
 `;
 
-const OrderTitle = styled.h2`
+export const OrderTitle = styled.h2`
   text-align: center;
   font-size: 39px;
   text-transform: uppercase;
@@ -33,7 +33,7 @@ const OrderContent = styled.div`
 
 const OrderList = styled.ul``;
 
-const Total = styled.div`
+export const Total = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 100%;
@@ -45,39 +45,8 @@ const EmptyList = styled.p`
   margin: 20px 0;
 `;
 
-const rulesData = {
-    name: ['name'],
-    price: ['price'],
-    count: ['count'],
-    topping: [
-        'topping',
-        (arr) => arr.filter((obj) => obj.checked).map((obj) => obj.name),
-        (arr) => (arr.length ? arr : 'no topping'),
-    ],
-    choice: ['choice', (item) => (item ? item : 'no choices')],
-};
-
-const Order = ({
-                   orders,
-                   setOpenItem,
-                   setOrders,
-                   authentication,
-                   login,
-                   //firebaseDatabase,
-                   database
-               }) => {
-    // const dataBase = firebaseDatabase();
-
-    const sendOrder = () => {
-        const newOrder = orders.map(projection(rulesData));
-        // dataBase.ref('orders').push().set({
-        database.ref('orders').push().set({
-            nameClient: authentication.displayName,
-            email: authentication.email,
-            order: newOrder,
-        });
-        setOrders([])
-    };
+const Order = () => {
+    const {auth: {authentication, login}, openItem: { setOpenItem}, orders: {orders, setOrders}, orderConfirm: {setOpenOrderConfirm}} = useContext(Context)
 
     const total = orders.reduce(
         (result, order) => result + totalPriceItems(order),
@@ -95,7 +64,7 @@ const Order = ({
     const checkoutOrder = () => {
         if (!authentication) login();
         else {
-            sendOrder();
+            setOpenOrderConfirm(true);
         }
     };
 
@@ -121,22 +90,27 @@ const Order = ({
                     ) : (
                         <EmptyList>Список заказов пуст</EmptyList>
                     )}
-                    <Total>
-                        <span>Итого</span>
-                        <span style={{ marginLeft: '80px' }}>
+                    {orders.length ?
+                        <>
+                            <Total>
+                                <span>Итого</span>
+                                <span style={{ marginLeft: '80px' }}>
                             {totalCounter}
                         </span>
-                        <span>{formatCurrency(total)}</span>
-                    </Total>
-                    <AddButton
-                        style={{
-                            marginLeft: '50%',
-                            transform: 'translateX(-50%)',
-                        }}
-                        onClick={checkoutOrder}
-                    >
-                        Оформить
-                    </AddButton>
+                                <span>{formatCurrency(total)}</span>
+                            </Total>
+                            <AddButton
+                                style={{
+                                    marginLeft: '50%',
+                                    transform: 'translateX(-50%)',
+                                }}
+                                onClick={checkoutOrder}
+                            >
+                                Оформить
+                            </AddButton>
+                        </>
+                        : null
+                    }
                 </OrderContent>
             </OrderStyled>
         </>

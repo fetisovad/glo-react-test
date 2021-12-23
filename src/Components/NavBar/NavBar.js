@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from "styled-components";
 import logoImg from '../../image/navbar/logo.svg'
 import signImg from '../../image/navbar/sign.svg'
+import { Context } from "../../utils/context";
 
 const NavBarStyled = styled.header`
   background: #299B01;
@@ -66,7 +67,9 @@ const User = styled.button`
   }
 `
 
-const NavBar = ({ authentication, login, logout }) => {
+const NavBar = () => {
+    const { auth: {authentication, login, logout} } = useContext(Context)
+
     return (
         <NavBarStyled>
             <Logo>
